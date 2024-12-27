@@ -39,6 +39,9 @@ RUN npm install
 # Set environment for development
 ENV NODE_ENV=development
 
+# Run the prisma generate command to generate Prisma client
+RUN npx prisma generate
+
 # Default command for development mode
 CMD ["npm", "run", "start:dev"]
 
@@ -47,6 +50,9 @@ FROM base as production
 
 # Set environment for production
 ENV NODE_ENV=production
+
+# Run the prisma generate command to generate Prisma client
+RUN npx prisma generate
 
 # Remove unnecessary files (like dev dependencies)
 RUN npm prune --production

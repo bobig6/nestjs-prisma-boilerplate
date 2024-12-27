@@ -3,7 +3,7 @@ import { UserService } from './user.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { Role } from '@prisma/client';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { UserCreateDto } from './dtos/UserCreateDto';
 import { UserLoginDto } from './dtos/UserLoginDto';
 

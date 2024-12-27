@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from '../src/app.module'; // Replace with your app's root module
 import { PrismaService } from '../src/prisma/prisma.service';
 import { Role } from '@prisma/client';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 describe('UserController (e2e)', () => {
   let app: INestApplication;
