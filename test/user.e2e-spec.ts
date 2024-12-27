@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from '../src/app.module'; // Replace with your app's root module
+import { AppModule } from '../src/app.module';
 import { PrismaService } from '../src/prisma/prisma.service';
 import { Role } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
@@ -11,6 +11,10 @@ describe('UserController (e2e)', () => {
   let prisma: PrismaService;
 
   beforeAll(async () => {
+    // Set the DATABASE_URL to the test database URL
+    process.env.DATABASE_URL =
+      'postgresql://supabase_admin:password@localhost:5432/supabase_db';
+
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule], // Ensure AppModule is correctly configured
     }).compile();
@@ -28,7 +32,7 @@ describe('UserController (e2e)', () => {
 
   beforeEach(async () => {
     // Reset the database before each test
-    await prisma.user.deleteMany({});
+    await prisma.$executeRaw`TRUNCATE TABLE "User" CASCADE;`;
   });
 
   describe('/user/register (POST)', () => {
