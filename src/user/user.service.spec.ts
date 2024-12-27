@@ -50,19 +50,35 @@ describe('UserService', () => {
 
   describe('getById', () => {
     it('should return a user by ID', async () => {
-      const mockUser = { user_id: 1, username: 'gosho', password_hash: 'hash', role: Role.NONE, created_at: new Date(), updated_at: new Date() };
+      const mockUser = {
+        user_id: 1,
+        username: 'gosho',
+        password_hash: 'hash',
+        role: Role.NONE,
+        created_at: new Date(),
+        updated_at: new Date(),
+      };
       jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(mockUser);
 
       const result = await userService.getById(1);
       expect(result).toEqual(mockUser);
-      expect(prismaService.user.findUnique).toHaveBeenCalledWith({ where: { user_id: 1 } });
+      expect(prismaService.user.findUnique).toHaveBeenCalledWith({
+        where: { user_id: 1 },
+      });
     });
   });
 
   describe('getAll', () => {
     it('should return all users', async () => {
       const mockUsers = [
-        { user_id: 1, username: 'gosho', password_hash: 'hash', role: Role.NONE, created_at: new Date(), updated_at: new Date() }
+        {
+          user_id: 1,
+          username: 'gosho',
+          password_hash: 'hash',
+          role: Role.NONE,
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
       ];
       jest.spyOn(prismaService.user, 'findMany').mockResolvedValue(mockUsers);
 
@@ -75,10 +91,19 @@ describe('UserService', () => {
   describe('create', () => {
     it('should create a new user and set role to ADMIN if no users exist', async () => {
       const userDto: UserCreateDto = { username: 'gosho', password: '123456' };
-      const mockCreatedUser = { user_id: 1, username: 'gosho', password_hash: 'hashed_password', role: Role.ADMIN, created_at: new Date(), updated_at: new Date() };
+      const mockCreatedUser = {
+        user_id: 1,
+        username: 'gosho',
+        password_hash: 'hashed_password',
+        role: Role.ADMIN,
+        created_at: new Date(),
+        updated_at: new Date(),
+      };
       jest.spyOn(userService, 'getAll').mockResolvedValue([]);
       jest.spyOn(bcrypt, 'hash').mockResolvedValue('hashed_password' as never);
-      jest.spyOn(prismaService.user, 'create').mockResolvedValue(mockCreatedUser);
+      jest
+        .spyOn(prismaService.user, 'create')
+        .mockResolvedValue(mockCreatedUser);
 
       const result = await userService.create(userDto);
       expect(result).toEqual(mockCreatedUser);
@@ -94,12 +119,28 @@ describe('UserService', () => {
     it('should set role to NONE if users exist', async () => {
       const userDto: UserCreateDto = { username: 'pesho', password: '123456' };
       const mockExistingUsers = [
-        { user_id: 1, username: 'gosho', password_hash: 'hash', role: Role.ADMIN, created_at: new Date(), updated_at: new Date() }
+        {
+          user_id: 1,
+          username: 'gosho',
+          password_hash: 'hash',
+          role: Role.ADMIN,
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
       ];
-      const mockCreatedUser = { user_id: 2, username: 'pesho', password_hash: 'hashed_password', role: Role.NONE, created_at: new Date(), updated_at: new Date() };
+      const mockCreatedUser = {
+        user_id: 2,
+        username: 'pesho',
+        password_hash: 'hashed_password',
+        role: Role.NONE,
+        created_at: new Date(),
+        updated_at: new Date(),
+      };
       jest.spyOn(userService, 'getAll').mockResolvedValue(mockExistingUsers);
       jest.spyOn(bcrypt, 'hash').mockResolvedValue('hashed_password' as never);
-      jest.spyOn(prismaService.user, 'create').mockResolvedValue(mockCreatedUser);
+      jest
+        .spyOn(prismaService.user, 'create')
+        .mockResolvedValue(mockCreatedUser);
 
       const result = await userService.create(userDto);
       expect(result).toEqual(mockCreatedUser);
@@ -115,8 +156,18 @@ describe('UserService', () => {
 
   describe('login', () => {
     it('should return a signed JWT if credentials are valid', async () => {
-      const userLoginDto: UserLoginDto = { username: 'gosho', password: '123456' };
-      const mockUser = { user_id: 1, username: 'gosho', password_hash: 'hashed_password', role: Role.NONE, created_at: new Date(), updated_at: new Date() };
+      const userLoginDto: UserLoginDto = {
+        username: 'gosho',
+        password: '123456',
+      };
+      const mockUser = {
+        user_id: 1,
+        username: 'gosho',
+        password_hash: 'hashed_password',
+        role: Role.NONE,
+        created_at: new Date(),
+        updated_at: new Date(),
+      };
       jest.spyOn(prismaService.user, 'findFirst').mockResolvedValue(mockUser);
       jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
       jest.spyOn(jwtService, 'sign').mockReturnValue('mockToken');
@@ -133,22 +184,48 @@ describe('UserService', () => {
     it('should throw an error if username is invalid', async () => {
       jest.spyOn(prismaService.user, 'findFirst').mockResolvedValue(null);
 
-      await expect(userService.login({ username: 'invalid', password: '123456' })).rejects.toThrow('Invalid username or password');
+      await expect(
+        userService.login({
+          username: 'invalid',
+          password: '123456',
+        }),
+      ).rejects.toThrow('Invalid username or password');
     });
 
     it('should throw an error if password is invalid', async () => {
-      const mockUser = { user_id: 1, username: 'gosho', password_hash: 'hashed_password', role: Role.NONE, created_at: new Date(), updated_at: new Date() };
+      const mockUser = {
+        user_id: 1,
+        username: 'gosho',
+        password_hash: 'hashed_password',
+        role: Role.NONE,
+        created_at: new Date(),
+        updated_at: new Date(),
+      };
       jest.spyOn(prismaService.user, 'findFirst').mockResolvedValue(mockUser);
       jest.spyOn(bcrypt, 'compare').mockResolvedValue(false as never);
 
-      await expect(userService.login({ username: 'gosho', password: 'wrongpassword' })).rejects.toThrow('Invalid username or password');
+      await expect(
+        userService.login({
+          username: 'gosho',
+          password: 'wrongpassword',
+        }),
+      ).rejects.toThrow('Invalid username or password');
     });
   });
 
   describe('changeRole', () => {
     it('should update the role of a user', async () => {
-      const mockUpdatedUser = { user_id: 1, username: 'gosho', password_hash: 'hash', role: Role.ADMIN, created_at: new Date(), updated_at: new Date() };
-      jest.spyOn(prismaService.user, 'update').mockResolvedValue(mockUpdatedUser);
+      const mockUpdatedUser = {
+        user_id: 1,
+        username: 'gosho',
+        password_hash: 'hash',
+        role: Role.ADMIN,
+        created_at: new Date(),
+        updated_at: new Date(),
+      };
+      jest
+        .spyOn(prismaService.user, 'update')
+        .mockResolvedValue(mockUpdatedUser);
 
       const result = await userService.changeRole(1, Role.ADMIN);
       expect(result).toEqual(mockUpdatedUser);

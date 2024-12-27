@@ -88,39 +88,52 @@ export class S3Service {
   // function to get an object from the bucket
   async getObject(key: string) {
     // Check if the key exists
-    try {
-      await this.s3Client.send(
-        new ListObjectsCommand({
-          Bucket: this.bucketName,
-          Prefix: key,
-        }),
-      );
-    } catch (e) {
+    const listResponse = await this.s3Client.send(
+      new ListObjectsCommand({
+        Bucket: this.bucketName,
+        Prefix: key,
+      }),
+    );
+
+    if (
+      !listResponse.Contents ||
+      !listResponse.Contents.some((obj) => obj.Key === key)
+    ) {
       throw new Error('Key does not exist');
     }
+
     // If the key exists, get the object
-    const { Body } = await this.s3Client.send(
+    const getResponse = await this.s3Client.send(
       new GetObjectCommand({
         Bucket: this.bucketName,
         Key: key,
       }),
     );
-    return Body;
+
+    if (!getResponse.Body) {
+      throw new Error('Object content is missing');
+    }
+
+    return getResponse.Body;
   }
 
   // function to update an object in the bucket
   async updateObject(key: string, body: Buffer) {
     // Check if the key already exists
-    try {
-      await this.s3Client.send(
-        new ListObjectsCommand({
-          Bucket: this.bucketName,
-          Prefix: key,
-        }),
-      );
-    } catch (e) {
+    const listResponse = await this.s3Client.send(
+      new ListObjectsCommand({
+        Bucket: this.bucketName,
+        Prefix: key,
+      }),
+    );
+
+    if (
+      !listResponse.Contents ||
+      !listResponse.Contents.some((obj) => obj.Key === key)
+    ) {
       throw new Error('Key does not exist');
     }
+
     // If the key exists, update the object
     await this.s3Client.send(
       new PutObjectCommand({
@@ -131,19 +144,22 @@ export class S3Service {
     );
   }
 
-  // function to delete an object from the bucket
   async deleteObject(key: string) {
     // Check if the key exists
-    try {
-      await this.s3Client.send(
-        new ListObjectsCommand({
-          Bucket: this.bucketName,
-          Prefix: key,
-        }),
-      );
-    } catch (e) {
+    const listResponse = await this.s3Client.send(
+      new ListObjectsCommand({
+        Bucket: this.bucketName,
+        Prefix: key,
+      }),
+    );
+
+    if (
+      !listResponse.Contents ||
+      !listResponse.Contents.some((obj) => obj.Key === key)
+    ) {
       throw new Error('Key does not exist');
     }
+
     // If the key exists, delete the object
     await this.s3Client.send(
       new DeleteObjectCommand({

@@ -26,13 +26,14 @@ export class UserService {
   }
 
   async create(data: UserCreateDto) {
-    // Create a new user and if no users exist, make the new user an admin
+    // Get all users to determine the role for the new user
     const users = await this.getAll();
     const role = users.length === 0 ? Role.ADMIN : Role.NONE;
 
-    // hash the password
+    // Hash the password
     const hashedPassword = await this.hashPassword(data.password);
 
+    // Ensure the username is passed correctly
     return this.prismaService.user.create({
       data: {
         username: data.username,

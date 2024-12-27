@@ -69,8 +69,8 @@ export class UserController {
     return this.userService.getAll();
   }
 
-  // change a user's role
   @Post('role')
+  @HttpCode(HttpStatus.OK) // Add this decorator
   @ApiOperation({ summary: "Change a user's role" })
   @ApiOkResponse({ description: 'User role changed' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
