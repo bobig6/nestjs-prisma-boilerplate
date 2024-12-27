@@ -143,7 +143,7 @@ async function createTestUserAndGetToken(
   role: Role,
 ): Promise<string> {
   const passwordHash = await bcrypt.hash('password123', 10);
-  const user = await prisma.user.create({
+  await prisma.user.create({
     data: {
       username: 'testuser',
       password_hash: passwordHash,
