@@ -1,73 +1,236 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Here’s a README tailored to your **NestJS Prisma Boilerplate** project based on the files you provided:
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+# **NestJS Prisma Boilerplate**
 
-## Installation
+This boilerplate provides a robust and extensible foundation for building scalable backend applications using **NestJS** with **Prisma ORM**. It incorporates modern development practices, CI/CD pipelines, and Dockerization for ease of deployment.
 
+## **Core Features**
+
+### 1. **Prisma ORM**
+- Integrated Prisma ORM for database management and migrations.
+- Pre-configured with a sample schema (`schema.prisma`) to get started.
+- Easily extendable for your specific database models.
+
+### 2. **Security**
+- **Snyk Integration**: Vulnerability scanning for dependencies.
+- **Trivy Integration**: Docker image scanning for vulnerabilities.
+- **Best Practices**:
+    - Environment variables validation using `class-validator`.
+    - Strict TypeScript settings for improved code safety.
+
+### 3. **Swagger Documentation**
+- **@nestjs/swagger** integration for automatic API documentation.
+- Swagger UI is available at `/api-docs` endpoint.
+
+### 4. **Testing**
+- **Unit Testing**:
+    - Configured with Jest for service and controller tests.
+    - Mocked Prisma Client for isolated tests.
+- **Integration Testing**:
+    - API endpoint tests with `supertest`.
+    - Uses an in-memory database for clean and repeatable tests.
+- **End-to-End Testing**:
+    - Set up for comprehensive application workflow testing.
+
+### 5. **CI/CD Pipeline**
+- Includes GitHub Actions workflows for:
+    - Linting and code quality checks.
+    - Unit and integration tests with PostgreSQL.
+    - Dependency scanning with Snyk.
+    - Docker image vulnerability scans with Trivy.
+    - Automated Docker image builds and pushes.
+
+### 6. **Docker**
+- Production-ready Dockerfile included.
+- Local development with `docker-compose.yml`.
+
+---
+
+## **Setup Guide**
+
+### **1. Prerequisites**
+- Node.js 20 or higher.
+- Docker and Docker Compose.
+- PostgreSQL database.
+
+### **2. Clone the Repository**
 ```bash
-$ npm install
+git clone https://github.com/bobig6/nestjs-prisma-boilerplate.git
+cd nestjs-prisma-boilerplate
 ```
 
-## Running the app
-
+### **3. Install Dependencies**
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Test
-
+### **4. Configure Environment**
+- Copy `.env.example` to `.env`:
 ```bash
-# unit tests
-$ npm run test
+cp .env.example .env
+```
+- Update environment variables for your database, JWT secrets, and AWS S3 configuration.
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+### **5. Run Prisma Migrations**
+```bash
+npx prisma migrate dev
 ```
 
-## Support
+### **6. Start the Application**
+- **Development**:
+```bash
+npm run start:dev
+```
+- **Production**:
+```bash
+npm run start:prod
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### **7. Run Tests**
+- **Unit and Integration Tests**:
+```bash
+npm run test
+```
+- **Coverage**:
+```bash
+npm run test:cov
+```
 
-## Stay in touch
+### **8. Build Docker Image**
+```bash
+docker build -t nestjs-prisma-boilerplate .
+```
+### **9. Deployment**
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+To deploy the application to a server, follow these steps:
 
-## License
+1. **Copy Deployment Script**:
+   Transfer the `example.deploy.sh` file to your server and modify it with your proper values
 
-Nest is [MIT licensed](LICENSE).
+    ```bash
+    #!/bin/bash
+    
+    # Ensure the script exits on any command failure
+    set -e
+    
+    # Define environment variables for the container
+    CONTAINER_NAME="my_container"
+    IMAGE_NAME="my_docker_image"
+    ENV_FILE="/path/to/.env"  # Path to your .env file
+    
+    # Pull the latest Docker image
+    echo "Pulling the latest image: $IMAGE_NAME"
+    docker pull $IMAGE_NAME
+    
+    # Stop and remove the currently running container if it exists
+    if [ "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
+        echo "Stopping running container: $CONTAINER_NAME"
+        docker stop $CONTAINER_NAME
+        echo "Removing container: $CONTAINER_NAME"
+        docker rm $CONTAINER_NAME
+    fi
+    
+    # Run the new container with environment variables
+    echo "Starting a new container: $CONTAINER_NAME"
+    docker run -d --name $CONTAINER_NAME -p 3030:3030 --env-file $ENV_FILE $IMAGE_NAME
+    
+    echo "Deployment complete. New container is running: $CONTAINER_NAME"
+    ```
+
+2. **Set Up Environment Variables**:
+   On your server, create an `.env` file using `.env.example` as a template:
+
+    ```bash
+    PORT=3030
+    
+    # Connect to Supabase via connection pooling with Supavisor.
+    DATABASE_URL=
+    # Direct connection to the database. Used for migrations.
+    DIRECT_URL=
+    
+    JWT_SECRET=
+    AWS_ACCESS_KEY_ID=
+    AWS_SECRET_ACCESS_KEY=
+    AWS_S3_REGION=
+    AWS_S3_ENDPOINT=
+    AWS_S3_BUCKET_NAME=
+    
+    NODE_ENV=development
+    ```
+
+3. **Install Docker**:
+   Follow the official Docker installation guide for Ubuntu:
+
+   [Docker Engine Installation on Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
+
+4. **Make the Deployment Script Executable**:
+   On your server, make the deployment script executable:
+
+    ```bash
+    chmod +x example.deploy.sh
+    ```
+
+5. **Run the Deployment Script**:
+   Execute the script to deploy the application:
+
+    ```bash
+    ./example.deploy.sh
+    ```
+
+6. **Configure Server Firewall Rules**:
+   Ensure your server's firewall rules allow inbound and outbound traffic on the application's port (default: 3030).
+---
+
+## **GitHub Actions Workflow**
+
+- **Branches**:
+    - `main`: Production-ready code.
+    - `develop`: Pre-production branch.
+    - `feature/*`: Feature development.
+    - `hotfix/*`: Critical production fixes.
+
+- Workflows:
+    - **Linting**: Runs ESLint checks.
+    - **Testing**: Executes unit and integration tests.
+    - **Vulnerability Scans**: Uses Snyk and Trivy for security checks.
+    - **Build and Push Docker Image**: Builds and pushes to Docker Hub.
+
+---
+
+## **Usage**
+
+### **Swagger API Documentation**
+Access the API documentation at:
+```
+http://localhost:3000/api
+```
+
+### **Health Check**
+Verify server health with:
+```
+http://localhost:3000/health
+```
+
+---
+
+## **Folder Structure**
+
+- **`src/`**: Application source code.
+    - **`main.ts`**: Application entry point.
+    - **`controllers/`**: Includes API controllers like `user.controller.ts` and `health.controller.ts`.
+    - **`services/`**: Includes services like `s3.service.ts`.
+    - **`prisma/`**: Database schema and configuration.
+- **`test/`**: Test files for unit, integration, and end-to-end tests.
+- **`Dockerfile`**: Production-ready Docker configuration.
+- **`docker-compose.yml`**: Local development setup.
+
+---
+
+## **License**
+This project is UNLICENSED and is intended for educational purposes.
+
+---

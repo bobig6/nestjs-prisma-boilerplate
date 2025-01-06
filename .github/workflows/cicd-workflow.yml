@@ -4,9 +4,14 @@ on:
   push:
     branches:
       - main
+      - develop
+      - feature/**
+      - hotfix/**
   pull_request:
     branches:
+      - develop
       - main
+
 
 jobs:
   lint:
@@ -108,13 +113,3 @@ jobs:
 
       - name: Run Trivy Scan
         run: trivy image ${{ secrets.DOCKER_USERNAME }}/nest-prisma-boilerplate:latest
-
-  deploy:
-    name: Deploy Application
-    needs: [trivy]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to Production
-        run: |
-          echo "Deploying application..."
-          # Add your deployment scripts here
