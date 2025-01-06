@@ -1,9 +1,3 @@
-
-
-Here’s a README tailored to your **NestJS Prisma Boilerplate** project based on the files you provided:
-
----
-
 # **NestJS Prisma Boilerplate**
 
 This boilerplate provides a robust and extensible foundation for building scalable backend applications using **NestJS** with **Prisma ORM**. It incorporates modern development practices, CI/CD pipelines, and Dockerization for ease of deployment.
@@ -219,14 +213,23 @@ http://localhost:3000/health
 
 ## **Folder Structure**
 
+- **`prisma/`**: Prisma configuration and migrations.
 - **`src/`**: Application source code.
-    - **`main.ts`**: Application entry point.
-    - **`controllers/`**: Includes API controllers like `user.controller.ts` and `health.controller.ts`.
-    - **`services/`**: Includes services like `s3.service.ts`.
-    - **`prisma/`**: Database schema and configuration.
-- **`test/`**: Test files for unit, integration, and end-to-end tests.
+  - **`decorators/`**: Custom decorators.
+  - **`guards/`**: Auth guards.
+  - **`health/`**: Health check module.
+  - **`prisma/`**: Prisma service and module.
+  - **`users/`**: User module.
+  - **`s3/`**: AWS S3 service.
+  - **`app.controller.ts`**: Main application controller.
+  - **`app.module.ts`**: Main application module.
+  - **`app.service.ts`**: Main application service.
+  - **`main.ts`**: Application entry point.
+- **`test/`**: Test utilities and fixtures.
 - **`Dockerfile`**: Production-ready Docker configuration.
 - **`docker-compose.yml`**: Local development setup.
+- **`example.deploy.sh`**: Deployment script template.
+- **`.env.example`**: Environment variables template.
 
 ---
 
